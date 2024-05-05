@@ -39,7 +39,7 @@ def register():
 
         cursor = mysql.connection.cursor()
         cursor.execute("INSERT INTO users (name,email,password) VALUES (%s,%s,%s)",(name,email,password))
-        mysql.connect.commit()
+        mysql.connection.commit()
         cursor.close()
 
         return redirect(url_for('login'))
