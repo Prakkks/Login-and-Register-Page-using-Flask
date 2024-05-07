@@ -4,6 +4,7 @@ from wtforms import StringField, SubmitField,PasswordField
 from wtforms.validators import DataRequired,Email,ValidationError
 import bcrypt
 from flask_mysqldb import MySQL
+import email_validator
 
 app = Flask(__name__)
 
