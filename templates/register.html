@@ -10,12 +10,14 @@
 
 <div class="container">
   <h2>Stacked form</h2>
-  <form   method = "POST">
+  <form  action="/register" method = "POST">
    <input placeholder="Name" type="text" name="Name">  
    <input placeholder="Email" type="email" name="Email">  
     <button> Submit</button>
   </form>
 </div>
-
+  <div class="container"> 
+    <p> Name = {{Name}} and Email = {{Email}} is added successfully</p>
+  </div>
 </body>
 </html>
