@@ -22,10 +22,11 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:1234@localhost:3306/loginp
 
 db = SQLAlchemy(app)
 
-class Lient(db.Model):
+class Users(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    name = db.Column(db.String)
+    username = db.Column(db.String)
     email = db.Column(db.String)
+    passwords=db.Column(db.String)
 
 @app.route('/')
 def add_data():
@@ -45,15 +46,17 @@ def add_data():
 @app.route('/register', methods=['GET','POST'])
 def register():  
     Name=''
-    Emails=''  
+    Emails=''
+    hashpassword=''  
     if request.method == 'POST':
         
         Name= request.form['Name']
         Emails= request.form['Email']
-        new_entry = Lient(name=Name,email=Emails)
+        hashpassword=request.form['Password']
+        new_entry = Users(username=Name,email=Emails,passwords=hashpassword)
         db.session.add(new_entry)
         db.session.commit()
-        return render_template('register.html', Name= Name, Email = Emails )
+        return render_template('register.html', Name= Name, Email = Emails)
         
 
     return render_template('register.html')
