@@ -178,6 +178,11 @@ button
 }
 
 
+#message 
+{
+    padding-bottom: 20px;
+}
+
 @media (max-width: 800px)
 {
    .Login{

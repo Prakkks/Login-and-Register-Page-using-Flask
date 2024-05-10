@@ -1,7 +1,7 @@
-from flask import Flask, request, render_template, redirect,url_for
+from flask import Flask, request, render_template, redirect,url_for,jsonify
 from flask_wtf import FlaskForm
-# from wtforms import StringField, SubmitField,PasswordField
-# from wtforms.validators import DataRequired,Email,ValidationError
+from wtforms import StringField, SubmitField,PasswordField
+from wtforms.validators import DataRequired,Email,ValidationError
 from flask_sqlalchemy import SQLAlchemy
 from flask_bcrypt import Bcrypt
 import secrets
@@ -44,10 +44,7 @@ def add_data():
 
 
 @app.route('/register', methods=['GET','POST'])
-def register():  
-    Name=''
-    Emails=''
-    hashpassword=''  
+def register():
     if request.method == 'POST':
         
         Name= request.form['Name']
@@ -55,17 +52,38 @@ def register():
         hpassword=request.form['Password']
         hashpassword= bcrypt.generate_password_hash(hpassword).decode('utf-8')
         new_entry = Users(username=Name,email=Emails,passwords=hashpassword)
-        db.session.add(new_entry)
-        db.session.commit()
-        return render_template('register.html', Name= Name, Email = Emails)
+        all_users = Users.query.filter_by(email=Emails).first()
+        if all_users:
+            print(all_users)
+            return render_template('register.html',  Email = 'already exist')
+        else:   
+            db.session.add(new_entry)
+            db.session.commit()
+            db.session.close()
+            return render_template('register.html', Name= Name, Email = Emails)
         
 
     return render_template('register.html')
         
-@app.route('/login', methods= ['GET', 'POST'])
-def login():
+@app.route('/login', methods=['GET','POST'])
+def login(): 
     if request.method == 'POST':
-        pass
+        Emails = request.form['Email'] 
+        passwords = request.form['password']
+        
+        user = Users.query.filter_by(email=Emails).first()
+        
+        if user:
+            if bcrypt.check_password_hash(Users.passwords, passwords):
+                # return jsonify({'message': 'Login successful'}), 200
+                return render_template('adminLogin.html', message='Login successful')
+            else:
+                # return jsonify({'message': 'Incorrect password'}), 401
+                return render_template('adminLogin.html', message='Login Unsuccessful')
+
+        else:
+            # return jsonify({'message': 'User not found'}), 404
+            return render_template('adminLogin.html', message='User not found')
     return render_template('adminLogin.html')
 
 @app.route('/dashboard')

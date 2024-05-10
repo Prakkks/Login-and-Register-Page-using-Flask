@@ -26,15 +26,15 @@
                 <h3> Log in.</h3>
                 <h4> Login with your admin credentials.</h4>
 
-                <form class="form-control">
+                <form class="form-control" id="form-controls"  action="/login" method = "POST">
                    
                     <div class="data">
-                        <input type="text" placeholder="Username" >
+                        <input type="email" placeholder="Email" name= "Email" required>
                         <i class="fa fa-duotone fa-user" ></i>
                         
                     </div>
                     <div class="data">
-                        <input type="password" placeholder="Password" >
+                        <input type="password" placeholder="Password" name= "password" required>
                         <i class="fa fa-duotone fa-lock" style="--fa-primary-color: #2f64c1; --fa-secondary-color: #2f64c1;"></i>
                         </div>
                     
@@ -47,6 +47,8 @@
                     <button type="submit"> Log In</button>
                 </form>
             </div>
+            <div id="message">{{message}}</div>
         </div>
+        <!-- <script src="{{url_for('static',filename='login.js')}}"></script> -->
     </body>
 </html>
