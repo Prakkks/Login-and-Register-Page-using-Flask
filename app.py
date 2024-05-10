@@ -1,9 +1,9 @@
 from flask import Flask, request, render_template, redirect,url_for
 from flask_wtf import FlaskForm
-from wtforms import StringField, SubmitField,PasswordField
-from wtforms.validators import DataRequired,Email,ValidationError
+# from wtforms import StringField, SubmitField,PasswordField
+# from wtforms.validators import DataRequired,Email,ValidationError
 from flask_sqlalchemy import SQLAlchemy
-# import bcrypt
+from flask_bcrypt import Bcrypt
 import secrets
 from sqlalchemy import Column, String, Integer , MetaData, Table, create_engine
 from sqlalchemy.ext.declarative import declarative_base
@@ -16,7 +16,7 @@ secret_key = secrets.token_hex(16)
 
 
 app = Flask(__name__)
-
+bcrypt = Bcrypt(app)
 app.config['SECRET_KEY'] = secret_key
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:1234@localhost:3306/loginproject'
 
@@ -52,7 +52,8 @@ def register():
         
         Name= request.form['Name']
         Emails= request.form['Email']
-        hashpassword=request.form['Password']
+        hpassword=request.form['Password']
+        hashpassword= bcrypt.generate_password_hash(hpassword).decode('utf-8')
         new_entry = Users(username=Name,email=Emails,passwords=hashpassword)
         db.session.add(new_entry)
         db.session.commit()
