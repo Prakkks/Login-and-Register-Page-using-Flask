@@ -1,15 +1,28 @@
-from flask import Flask, request, render_template, redirect,url_for,jsonify
-from flask_wtf import FlaskForm
-from wtforms import StringField, SubmitField,PasswordField
-from wtforms.validators import DataRequired,Email,ValidationError
-from flask_sqlalchemy import SQLAlchemy
-from flask_bcrypt import bcrypt
-from sqlalchemy import Column, String, Integer , MetaData, Table, create_engine
-from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import sessionmaker , session
-import os
+# from flask import Flask, request, render_template, redirect,url_for,jsonify
+# from flask_wtf import FlaskForm
+# from wtforms import StringField, SubmitField,PasswordField
+# from wtforms.validators import DataRequired,Email,ValidationError
+# from flask_sqlalchemy import SQLAlchemy
+# from flask_bcrypt import bcrypt
+# from sqlalchemy import Column, String, Integer , MetaData, Table, create_engine
+# from sqlalchemy.ext.declarative import declarative_base
+# from sqlalchemy.orm import sessionmaker , session
+# import os
 
 # engine = db.create_engine('mysql://root:1234@localhost:3306/loginproject',echo=True)
+from flask import Flask, request, render_template, redirect, url_for, jsonify
+from flask_wtf import FlaskForm
+from wtforms import StringField, SubmitField, PasswordField
+from wtforms.validators import DataRequired, Email, ValidationError
+from flask_sqlalchemy import SQLAlchemy
+from flask_bcrypt import Bcrypt
+from sqlalchemy import Column, String, Integer, MetaData, Table, create_engine
+from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.orm import sessionmaker
+
+# Patch MySQLdb to use PyMySQL
+import pymysql
+pymysql.install_as_MySQLdb()
 
 
 
