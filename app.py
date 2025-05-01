@@ -7,7 +7,7 @@ from flask_bcrypt import bcrypt
 from sqlalchemy import Column, String, Integer , MetaData, Table, create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker , session
-
+import os
 
 # engine = db.create_engine('mysql://root:1234@localhost:3306/loginproject',echo=True)
 
@@ -78,4 +78,5 @@ def dashboard():
     return render_template('dashboard.html')
 
 if __name__ == '__main__':
-    app.run(debug =True)
+    port = int(os.environ.get("PORT", 5000))
+    app.run(host='0.0.0.0', port=port)
